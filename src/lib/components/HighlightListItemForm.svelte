@@ -31,7 +31,7 @@
 
     async function save() {
         const event = new NDKEvent($ndk, {
-            kind: 9802,
+            kind: 9803,
             content: highlight.content,
         } as NostrEvent)
 

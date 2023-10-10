@@ -31,20 +31,8 @@
             </div>
             <div class="hidden sm:-my-px sm:ml-6 sm:flex sm:space-x-8">
                 <!-- Current: "border-slate-500 text-gray-900", Default: "border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700" -->
-                <Link href="/{$currentScope?.label}/highlights"
-                    klass="
-                        border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center border-b-2 px-1 pt-1 text-sm font-medium
-                    "
-                    activeKlass="
-                        hover:border-gray-300 hover:text-gray-700 inline-flex items-center border-b-2 px-1 pt-1 text-sm font-medium
-                        border-slate-500 text-gray-900
-                    "
-                >
-                    <MyHighlightsIcon />
-                    <span class="hidden sm:block">Highlights</span>
-                </Link>
 
-                <Link href="/web"
+                <Link href="/"
                     klass="
                         border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center border-b-2 px-1 pt-1 text-sm font-medium
                     "
@@ -56,19 +44,6 @@
                     <ConsoleIcon />
                     <span class="hidden sm:block">Search</span>
                 </Link>
-
-                <Link href="/about"
-                    klass="
-                        border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center border-b-2 px-1 pt-1 text-sm font-medium
-                    "
-                    activeKlass="
-                        hover:border-gray-300 hover:text-gray-700 inline-flex items-center border-b-2 px-1 pt-1 text-sm font-medium
-                        border-slate-500 text-gray-900
-                    "
-                >
-                    <AboutIcon />
-                    <span class="hidden sm:block">About</span>
-                </Link>
             </div>
         </div>
         <div class="hidden sm:ml-6 sm:flex sm:items-center">
@@ -76,7 +51,7 @@
             <div class="relative ml-3">
                 <div class="flex flex-row gap-4 items-center">
                     {#if $currentUser}
-                        <a
+                        <!-- <a
                             href="/atlas"
                             class="
                                 ring-1
@@ -92,7 +67,7 @@
                         >
                             <PlusCircle />
                             Atlas Notes
-                        </a>
+                        </a> -->
                         <Avatar
                             pubkey={$currentUser?.hexpubkey()}
                             klass="w-10 h-10 border-2 border-slate-200"
@@ -137,7 +112,7 @@
     <div class="sm:hidden" id="mobile-menu">
         <div class="space-y-1 pb-3 pt-2">
             <!-- Current: "border-slate-500 bg-slate-50 text-slate-700", Default: "border-transparent text-gray-600 hover:border-gray-300 hover:bg-gray-50 hover:text-gray-800" -->
-            <a href="/" class="border-slate-500 bg-slate-50 text-slate-700 block border-l-4 py-2 pl-3 pr-4 text-base font-medium" aria-current="page">Highlights</a>
+            <a href="/" class="border-slate-500 bg-slate-50 text-slate-700 block border-l-4 py-2 pl-3 pr-4 text-base font-medium" aria-current="page">Search</a>
         </div>
     </div>
   </nav>

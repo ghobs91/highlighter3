@@ -22,6 +22,7 @@ declare global {
             event?: string;
             timestamp?: number;
             scope?: string;
+            highlightType?: string;
         }
 
         interface Note {

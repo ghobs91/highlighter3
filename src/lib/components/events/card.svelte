@@ -127,7 +127,7 @@
                 pb-0
                 relative
             ">
-                <div class="flex flex-row gap-4 items-center whitespace-nowrap">
+                <!-- <div class="flex flex-row gap-4 items-center whitespace-nowrap">
                     <a
                         href="/p/{userPubkey}"
                         class="flex flex-row gap-4 items-center justify-center">
@@ -137,7 +137,7 @@
                             <Name pubkey={userPubkey} />
                         </div>
                     </a>
-                </div>
+                </div> -->
 
                 <div class="
                     absolute bottom-0 right-0
@@ -157,7 +157,7 @@
                         transition duration-300
                         z-10
                     ">
-                        <BookmarkButton {event} />
+                        <!-- <BookmarkButton {event} />
 
                         <ZapsButton {highlight} {event} />
 
@@ -165,7 +165,7 @@
 
                         {#if replies}
                             <RepliesButton {highlight} {note} {event} {replies} />
-                        {/if}
+                        {/if} -->
 
                         <!-- {#if !highlight.articleId && highlight.url && !skipUrl}
                             <a href={highlight.url} class="text-gray-500 hover:text-orange-500 flex flex-row gap-3 text-sm items-center">
@@ -189,7 +189,7 @@
         {/if}
     </div>
 
-    {#if replies?.length > 0}
+    <!-- {#if replies?.length > 0}
         {#if !expandReplies}
             {#each replies as reply}
                 <div class="ml-6">
@@ -205,5 +205,5 @@
                 View replies...
             </button>
         {/if}
-    {/if}
+    {/if} -->
 </div>

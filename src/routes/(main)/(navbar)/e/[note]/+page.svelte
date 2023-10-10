@@ -15,7 +15,7 @@
     function eventLoaded(e) {
         event = e.detail as NDKEvent;
 
-        if (event?.kind === 9802) {
+        if (event?.kind === 9803) {
             quotes = NoteInterface.load({ quotes: [event.id] });
         } else {
             quotes = undefined;

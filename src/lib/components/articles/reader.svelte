@@ -1,7 +1,7 @@
 <script lang="ts">
     import HighlightInterface from '$lib/interfaces/highlights';
     import NoteInterface from '$lib/interfaces/notes';
-    import type { NDKEvent } from '@nostr-dev-kit/ndk';
+    import { NDKEvent, type NostrEvent } from '@nostr-dev-kit/ndk';
     import type { NDKSubscription } from '@nostr-dev-kit/ndk';
     import ScopeDropdown from '$lib/components/ScopeDropdown.svelte';
     import HighlightList from '$lib/components/HighlightList.svelte';
@@ -14,8 +14,10 @@
     import HighlightWrapper from '../HighlightWrapper.svelte';
     import Article from '../Article.svelte';
     import CardContent from '$lib/components/events/content.svelte';
+    import RoundedButton from '../../../routes/(main)/components/RoundedButton.svelte';
+    import ndk from '$lib/stores/ndk';
 
-    export let article: App.Article | undefined = undefined;
+    export let article: App.Article;
     export let eventId: string | undefined = undefined;
     export let articleEvent: NDKEvent;
     export let content: string;
@@ -73,11 +75,24 @@
     // Apply filter when it's ready
     $: if (highlightFilter !== currentHighlightFilter) {
         console.log({highlightFilter, currentHighlightFilter});
+        highlightFilter = {
+            highlightFilter: highlightFilter,
+            highlightType: 'archive'
+        }
         currentHighlightFilter = highlightFilter;
 
-        highlights = HighlightInterface.load(highlightFilter);
-        activeSub = HighlightInterface.startStream(highlightFilter);
+        highlights = HighlightInterface.load(highlightFilter.highlightFilter);
+        activeSub = HighlightInterface.startStream(highlightFilter.highlightFilter);
     }
+
+    // // Apply filter when it's ready
+    // $: if (highlightFilter !== currentHighlightFilter) {
+    //     console.log({highlightFilter, currentHighlightFilter});
+    //     currentHighlightFilter = highlightFilter;
+
+    //     highlights = HighlightInterface.load(highlightFilter);
+    //     activeSub = HighlightInterface.startStream(highlightFilter);
+    // }
 
     let markedHighlightCount = 0;
 
@@ -126,6 +141,29 @@
         }
     }
 
+    function altTag(event: NDKEvent) {
+        const content = `"${event.content}"\n\nThis is a highlight created on https://highlighter.com`;
+
+        return ['alt', content];
+    }
+
+    async function createSnapshot() {
+        const event = new NDKEvent($ndk, {
+            kind: 9803,
+            content: '<h1>' + article?.title + '</h1>' + article.content,
+            highlightType: 'archive',
+        } as NostrEvent)
+
+        if (articleEvent) {
+            event.tags.push(articleEvent.tagReference());
+        } else if (article.url) {
+            event.tags.push(['r', article.url]);
+        }
+        event.tags.push(altTag(event));
+        await event.sign();
+        await event.publish();
+    }
+
     function onNewHighlightCancel() {
         newHighlightItem = undefined;
     }
@@ -135,7 +173,7 @@
     <title>{article?.title || "Highlighter.com"}</title>
 </svelte:head>
 
-<div class="flex flex-row sm:flex-row w-full mx-auto px-6">
+<div class="flex sm:flex-column w-full mx-auto px-6">
     <div class="
         rounded-b-lg shadow
         text-lg p-8 text-justify leading-loose flex flex-col gap-2
@@ -143,6 +181,8 @@
         overflow-auto
     ">
         {#if article || articleEvent}
+            <RoundedButton on:click={createSnapshot}>Save Snapshot</RoundedButton>
+            <br/>
             {#if article?.title}
                 <!-- Title -->
                 <h1 class="text-2xl font-bold font-sans leading-normal text-left">{article?.title}</h1>
@@ -211,9 +251,11 @@
     <!-- Sidebar -->
     <div class="relative">
         <div class="px-4 h-screen fixed overflow-auto w-5/12">
-            <div class="flex flex-row justify-end mb-4">
+            <h1 class="text-2xl font-bold font-sans leading-normal text-center">Previous Snapshots</h1>
+            <br/>
+            <!-- <div class="flex flex-row justify-end mb-4">
                 <ScopeDropdown bind:scope />
-            </div>
+            </div> -->
 
             {#if newHighlightItem}
                 <div class="mb-8" transition:fade>

@@ -2,7 +2,7 @@
     import HighlightCard from '$lib/components/highlights/card.svelte';
     import NoteCard from '$lib/components/notes/card.svelte';
     import { handleEvent1 } from '$lib/interfaces/notes';
-    import { handleEvent9802 } from '$lib/interfaces/highlights';
+    import { handleEvent9803 } from '$lib/interfaces/highlights';
     import ndk from '$lib/stores/ndk';
     import { nip19 } from 'nostr-tools';
     import { createEventDispatcher } from 'svelte';
@@ -59,10 +59,10 @@
             draggable={true}
             on:dragstart={(dragEvent) => dragStart(dragEvent, e)}
         >
-            {#if e.kind === 9802}
+            {#if e.kind === 9803}
                 <div class="border rounded-lg border-zinc-300">
                     <HighlightCard
-                        highlight={handleEvent9802(e)}
+                        highlight={handleEvent9803(e)}
                         skipTitle={true}
                     />
                 </div>

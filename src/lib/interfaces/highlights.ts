@@ -22,6 +22,7 @@ export interface ILoadOpts {
     url?: string;
     ids?: string[];
     limit?: number;
+    highlightType?: string
 };
 
 // until I add delete support
@@ -40,8 +41,8 @@ const HighlightInterface = {
         console.log(`starting highlight stream with opts: ${JSON.stringify(opts)}`);
         let articleReference: string | undefined;
         const ndk: NDK = getStore(ndkStore);
-        let filter: NDKFilter = { kinds: [9802] };
-        // const boostFilter: NDKFilter = { kinds: [6], '#k': ["9802"], since: 100000000 };
+        let filter: NDKFilter = { kinds: [9803] };
+        // const boostFilter: NDKFilter = { kinds: [6], '#k': ["9803"], since: 100000000 };
 
         if (opts.pubkeys) {
             filter['authors'] = opts.pubkeys;
@@ -118,7 +119,12 @@ const HighlightInterface = {
         }
 
         if (opts.url) {
-            query = query.filter(h => h.url === opts.url);
+            if (opts.highlightType) {
+                query = query.filter(h => (h.url === opts.url) && (h.highlightType === "archive"));
+            } else {
+                query = query.filter(h => h.url === opts.url);
+            }
+
         }
 
         if (opts.limit) {
@@ -137,7 +143,7 @@ async function eventHandler(event: NDKEvent) {
     try {
         switch (event.kind) {
             case 6: highlight = await handleEvent6(event); break;
-            case 9802: highlight = await handleEvent9802(event); break;
+            case 9803: highlight = await handleEvent9803(event); break;
         }
 
         if (highlight) db.highlights.put(highlight);
@@ -151,7 +157,7 @@ async function handleEvent6(event: NDKEvent) {
     const boostedEventJson = JSON.parse(event.content);
     const boostedEvent = new NDKEvent(event.ndk, boostedEventJson);
 
-    const highlight = await handleEvent9802(boostedEvent);
+    const highlight = await handleEvent9803(boostedEvent);
     if (!highlight) return;
 
     highlight.boostedBy = event.pubkey;
@@ -160,7 +166,7 @@ async function handleEvent6(event: NDKEvent) {
     return highlight;
 }
 
-export function handleEvent9802(event: NDKEvent) {
+export function handleEvent9803(event: NDKEvent) {
     let articleId = valueFromTag(event, 'a');
     const url = valueFromTag(event, 'r');
     const context = valueFromTag(event, 'context');
