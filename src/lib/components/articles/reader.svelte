@@ -173,7 +173,7 @@
     <title>{article?.title || "Highlighter.com"}</title>
 </svelte:head>
 
-<div class="flex sm:flex-column w-full mx-auto px-6">
+<div class="flex w-full mx-auto px-6 article-container">
     <div class="
         rounded-b-lg shadow
         text-lg p-8 text-justify leading-loose flex flex-col gap-2
@@ -249,40 +249,46 @@
     </div>
 
     <!-- Sidebar -->
-    <div class="relative">
-        <div class="px-4 h-screen fixed overflow-auto w-5/12">
-            <h1 class="text-2xl font-bold font-sans leading-normal text-center">Previous Snapshots</h1>
-            <br/>
-            <!-- <div class="flex flex-row justify-end mb-4">
-                <ScopeDropdown bind:scope />
-            </div> -->
+    <!-- <div class="relative"> -->
+    <div class="px-4 h-screen fixed overflow-auto w-5/12">
+        <h1 class="text-2xl font-bold font-sans leading-normal text-center">Previous Snapshots</h1>
+        <br/>
+        <!-- <div class="flex flex-row justify-end mb-4">
+            <ScopeDropdown bind:scope />
+        </div> -->
 
-            {#if newHighlightItem}
-                <div class="mb-8" transition:fade>
-                    <HighlightListItemForm
-                        {articleEvent}
-                        highlight={newHighlightItem}
-                        on:cancel={onNewHighlightCancel}
-                    />
-                </div>
-            {/if}
-
-            <div class="
-                {newHighlightItem ? 'opacity-50' : ''}
-                transition duration-100
-            ">
-                {#if article && highlightFilter}
-                    {#key highlightFilter}
-                        <HighlightList
-                            skipTitle={true}
-                            items={highlights}
-                            {article}
-                        />
-                    {/key}
-                {/if}
+        {#if newHighlightItem}
+            <div class="mb-8" transition:fade>
+                <HighlightListItemForm
+                    {articleEvent}
+                    highlight={newHighlightItem}
+                    on:cancel={onNewHighlightCancel}
+                />
             </div>
+        {/if}
+
+        <div class="
+            {newHighlightItem ? 'opacity-50' : ''}
+            transition duration-100
+        ">
+            {#if article && highlightFilter}
+                {#key highlightFilter}
+                    <HighlightList
+                        skipTitle={true}
+                        items={highlights}
+                        {article}
+                    />
+                {/key}
+            {/if}
         </div>
     </div>
+    <!-- </div> -->
 </div>
+
+<style>
+:global(.article-container) {
+    flex-direction: column;
+}
+</style>
 
 <!-- <Widget loadHighlights={false} position="bottom-5 left-5 flex-col-reverse" /> -->

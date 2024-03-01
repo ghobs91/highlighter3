@@ -61,7 +61,7 @@
                                 px-4 py-1.5 h-10
                                 text-zinc-500
                                 flex flex-row gap-2
-                                items-center
+                                items-center    `
                             "
                             on:click={submitTrack}
                         >
