@@ -179,13 +179,14 @@
         text-lg p-8 text-justify leading-loose flex flex-col gap-2
         bg-white rounded-xl w-7/12
         overflow-auto
+        article-reader-container
     ">
         {#if article || articleEvent}
             <RoundedButton on:click={createSnapshot}>Save Snapshot</RoundedButton>
             <br/>
             {#if article?.title}
                 <!-- Title -->
-                <h1 class="text-2xl font-bold font-sans leading-normal text-left">{article?.title}</h1>
+                <h1 class="text-xl font-bold font-sans leading-normal text-left">{article?.title}</h1>
             {/if}
 
             <div class="flex flex-row justify-between">
@@ -250,7 +251,7 @@
 
     <!-- Sidebar -->
     <!-- <div class="relative"> -->
-    <div class="px-4 h-screen fixed overflow-auto w-5/12">
+    <div class="px-4 h-screen fixed overflow-auto w-5/12 previous-snapshots">
         <h1 class="text-2xl font-bold font-sans leading-normal text-center">Previous Snapshots</h1>
         <br/>
         <!-- <div class="flex flex-row justify-end mb-4">
@@ -288,6 +289,13 @@
 <style>
 :global(.article-container) {
     flex-direction: column;
+}
+:global(.previous-snapshots) {
+    position:relative !important;
+    width: 100%;
+}
+:global(.article-reader-container) {
+    width: 100%;
 }
 </style>
 
