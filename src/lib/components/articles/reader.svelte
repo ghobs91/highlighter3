@@ -293,6 +293,10 @@
 :global(.previous-snapshots) {
     position:relative !important;
     width: 100%;
+    border: 1px solid #ededf2;
+    border-radius: 10px;
+    margin-top: 23px;
+    background-color: #ededf2;
 }
 :global(.article-reader-container) {
     width: 100%;
